@@ -5,6 +5,64 @@
   <title>Hanako.exe | Profile</title>
   <style>
     body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    /* Fullscreen intro overlay */
+    #enter-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+    }
+
+    #enter-button {
+      padding: 15px 40px;
+      font-size: 22px;
+      font-weight: bold;
+      border: 2px solid white;
+      border-radius: 50px;
+      color: white;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 10px white;
+    }
+
+    #enter-button:hover {
+      background: white;
+      color: black;
+      transform: scale(1.05);
+      box-shadow: 0 0 20px white;
+    }
+
+    /* Hide main content until enter */
+    #main-content {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Click to enter screen -->
+  <div id="enter-screen">
+    <h1 style="font-style: italic; text-shadow:0 0 15px white;">Hanako.exe</h1>
+    <button id="enter-button">Click to Enter</button>
+  </div>
+
+  <meta charset="UTF-8">
+  <title>Hanako.exe | Profile</title>
+  <style>
+    body {
       background: black;
       margin: 0;
       padding: 0;
@@ -535,9 +593,10 @@ loadSong();
         }
     </style>
 <body>
-    <div class="footer-text">Made by Icey for 2n9 :D </div>
+    <div class="footer-text">Made by Icey  and edited by Hanako for Hanako :P </div>
 </body>
 </html>
+
 
 
 
