@@ -3,140 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>@2n9 Roster</title>
+<link rel="icon" href="images/osiiiz_....ico" type="image/x-icon">
 <style>
-body, html { margin:0; padding:0; font-family:Arial,sans-serif; background:black; color:white; }
-#enter-screen {
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  display:flex; justify-content:center; align-items:center;
-  font-size:36px; cursor:pointer; background:black; z-index:9999;
+html, body { margin:0; padding:0; font-family:Arial,sans-serif; background:black; color:white; height:100%; overflow-x:hidden; overflow-y:auto; cursor:none; }
+body { display:flex; flex-direction:column; align-items:center; }
+
+h1 { text-align:center; margin:20px 0; }
+
+.roster-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 columns */
+    gap: 10px; /* closer spacing */
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto 50px auto;
 }
-#page-content { display:flex; flex-direction:column; align-items:center; justify-content:flex-start; min-height:100vh; }
-.container { display:flex; flex-wrap:wrap; gap:15px; margin-top:20px; justify-content:center; }
-.card { width:120px; height:160px; background:rgba(255,255,255,0.1); display:flex; justify-content:center; align-items:center; border:1px solid white; border-radius:8px; text-align:center; }
-#discord-button { margin-top:20px; padding:8px 20px; border:2px solid white; border-radius:8px; text-decoration:none; color:white; background:rgba(255,255,255,0.1); }
-#music-controls { margin-top:20px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:center; }
-#song-title { font-weight:bold; }
-button { padding:5px 10px; border:none; border-radius:5px; cursor:pointer; background:rgba(255,255,255,0.2); color:white; }
-button.active { background:white; color:black; }
-#progress-container { width:300px; height:10px; background:rgba(255,255,255,0.2); border-radius:5px; overflow:hidden; }
-#progress-bar { width:0%; height:100%; background:white; }
+
+.flip-card {
+  background-color: transparent;
+  width: 150px;
+  height: 220px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border: 2px solid white;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: white;
+  overflow: hidden;
+  text-shadow: 1px 1px 3px black;
+  box-sizing: border-box;
+}
+
+.flip-card-front {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+}
+
+.flip-card-front img {
+  width: 100%;
+  height: 65%;
+  object-fit: cover;
+  border-bottom: 2px solid white;
+}
+
+.flip-card-front span {
+  margin-top: 5px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.flip-card-front .role {
+  font-size: 12px;
+  font-weight: normal;
+  color: #ccc;
+  margin-top: 2px;
+  text-align: center;
+}
+
+.flip-card-back {
+  background: rgba(0,0,0,0.85);
+  transform: rotateY(180deg);
+  font-size: 12px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 </style>
 </head>
 <body>
 
-<div id="enter-screen">CLICK TO ENTER</div>
-
-<audio id="bg-music" loop>
-  <source src="music/wasted.mp3" type="audio/mpeg">
-</audio>
+<h1>@2n9 Roster</h1>
+<div class="roster-grid" id="roster-grid"></div>
 
 <script>
-// Roster
 const roster = [
-  '@2n9Hanako', '@2n9Icey', '@2n9Melo', '@2n9Tecca', '@2n9FbiJr',
-  '@2n9Slutting', '@2n9Zox', '@2n9Nox', '@2n9Juice12am', '@2n9Banshee'
+  {name:'@2n9Icey', role:'Member', img:'images/icey.jpg', bio:'Click on me.', profile:'profiles/@2n9Icey.html'},
+  {name:'@2n9Melo', role:'Member', img:'images/melo.jpg', bio:'Click on me.', profile:'profiles/@2n9Melo.html'},
+  {name:'@2n9Hanako', role:'Owner/founder', img:'images/hanako.jpg', bio:'Click on me.', profile:'profiles/@2n9Hanako.html'},
+  {name:'@2n9Lucifer', role:'Co Owner', img:'images/lucifer.jpg', bio:'Click on me.', profile:'profiles/@2n9Lucifer.html'},
+  {name:'@2n9Tecca', role:'Member', img:'images/tecca.jpg', bio:'Click on me.', profile:'profiles/@2n9Tecca.html'},
+  {name:'@2n9FbiJr', role:'Member', img:'images/fbi.jpg', bio:'Click on me.', profile:'profiles/@2n9FbiJr.html'},
+  {name:'@2n9Slutting', role:'Member', img:'images/slutting.jpg', bio:'Click on me.', profile:'profiles/@2n9Slutting.html'},
+  {name:'@2n9Bleeding', role:'Member', img:'images/bleeding.jpg', bio:'Click on me.', profile:'profiles/@2n9Bleeding.html'},
+  {name:'@2n9Zox', role:'Admin', img:'images/zox.jpg', bio:'Click on me.', profile:'profiles/@2n9Zox.html'},
+  {name:'@2n9Juice12am', role:'Admin', img:'images/juice12am.jpg', bio:'Click on me.', profile:'profiles/@2n9Juice12am.html'},
+  {name:'@2n9Banshee', role:'Member', img:'images/banshee.jpg', bio:'Click on me.', profile:'profiles/@2n9Banshee.html'},
+  {name:'@2n9Fbigov', role:'Mod', img:'images/fbigov.jpg', bio:'Click on me.', profile:'profiles/@2n9Fbigov.html'},
+  {name:'@2n9Rotting', role:'Member', img:'images/rotting.jpg', bio:'Click on me.', profile:'profiles/@2n9Rotting.html'},
+  {name:'@2n9Adore', role:'Member', img:'images/adore.jpg', bio:'Click on me.', profile:'profiles/@2n9Adore.html'}
 ];
 
-// Songs
-const songs = [
-  {title:'Wasted - Juice Wrld Ft. Lil Uzi Vert', src:'music/wasted.mp3'}
-  // Add more here
-];
+const grid=document.getElementById('roster-grid');
 
-const overlay = document.getElementById('enter-screen');
-const music = document.getElementById('bg-music');
-
-overlay.addEventListener('click', () => {
-    // Play music immediately (trusted gesture)
-    const playPromise = music.play();
-    if(playPromise !== undefined){
-        playPromise.then(() => initPage()).catch(err => initPage());
-    } else {
-        initPage();
-    }
+roster.forEach(m=>{
+  const card=document.createElement('div');
+  card.className='flip-card';
+  card.innerHTML=`<div class="flip-card-inner">
+    <div class="flip-card-front"><img src="${m.img}"><span>${m.name}</span><div class="role">${m.role}</div></div>
+    <div class="flip-card-back">${m.bio}</div>
+  </div>`;
+  card.onclick=()=>{ window.location.href=m.profile; }
+  grid.appendChild(card);
 });
-
-function initPage(){
-    overlay.style.display = 'none';
-
-    const content = document.createElement('div');
-    content.id = 'page-content';
-    document.body.appendChild(content);
-
-    // Title
-    const title = document.createElement('h1');
-    title.textContent = '@2n9 Roster';
-    content.appendChild(title);
-
-    // Cards
-    const container = document.createElement('div');
-    container.className = 'container';
-    roster.forEach(name=>{
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.textContent = name;
-        container.appendChild(card);
-    });
-    content.appendChild(container);
-
-    // Music controls
-    const controls = document.createElement('div');
-    controls.id = 'music-controls';
-
-    const songTitle = document.createElement('span');
-    songTitle.id = 'song-title';
-    songTitle.textContent = songs[0].title;
-    controls.appendChild(songTitle);
-
-    const playBtn = document.createElement('button');
-    playBtn.textContent = 'Play/Pause';
-    playBtn.onclick = ()=> music.paused ? music.play() : music.pause();
-    controls.appendChild(playBtn);
-
-    const prevBtn = document.createElement('button');
-    prevBtn.textContent = 'Prev';
-    controls.appendChild(prevBtn);
-
-    const nextBtn = document.createElement('button');
-    nextBtn.textContent = 'Next';
-    controls.appendChild(nextBtn);
-
-    const shuffleBtn = document.createElement('button');
-    shuffleBtn.textContent = 'Shuffle';
-    shuffleBtn.onclick = () => shuffleBtn.classList.toggle('active');
-    controls.appendChild(shuffleBtn);
-
-    const loopBtn = document.createElement('button');
-    loopBtn.textContent = 'Loop';
-    loopBtn.onclick = () => loopBtn.classList.toggle('active');
-    controls.appendChild(loopBtn);
-
-    // Progress bar
-    const progressContainer = document.createElement('div');
-    progressContainer.id = 'progress-container';
-    const progressBar = document.createElement('div');
-    progressBar.id = 'progress-bar';
-    progressContainer.appendChild(progressBar);
-    controls.appendChild(progressContainer);
-
-    content.appendChild(controls);
-
-    // Discord button
-    const discordBtn = document.createElement('a');
-    discordBtn.id = 'discord-button';
-    discordBtn.href = 'https://discord.gg/PxkPnxM2Hb';
-    discordBtn.target = '_blank';
-    discordBtn.textContent = 'JOIN DISCORD';
-    content.appendChild(discordBtn);
-
-    // Update progress bar
-    music.ontimeupdate = () => {
-        if(!isNaN(music.duration)){
-            progressBar.style.width = (music.currentTime/music.duration)*100+'%';
-        }
-    };
-}
 </script>
 
 </body>
